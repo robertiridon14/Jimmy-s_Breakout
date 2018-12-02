@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +27,11 @@ public class LevelConstructor : MonoBehaviour {
     [SerializeField] private float StairOpenX;
     [SerializeField] private float StairOpenY;
     [SerializeField] private int FloorNr;
+
+    [SerializeField] private int objects;
+    [SerializeField] private GameObject[] RoomObject;
+    [SerializeField] private Vector3[] ObjectLocations;
+    [SerializeField] private Quaternion[] ObjectRotation;
 
     private GameObject newFloor;
     private Vector3 NewPosition;
@@ -143,6 +148,14 @@ public class LevelConstructor : MonoBehaviour {
                 Wall = Instantiate(Wall, new Vector3(-FloorSize, FloorNr * WallHeight, p * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
             }
+        }
+
+        ///Create Objects in Room
+        int index = 0;
+        foreach(GameObject obj in RoomObject)
+        {
+            Instantiate(obj, ObjectLocations[index], ObjectRotation[index]);
+            index++;
         }
     }
         public void Awake()
