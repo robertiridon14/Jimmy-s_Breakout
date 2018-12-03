@@ -16,26 +16,29 @@ public class LevelConstructor : MonoBehaviour {
     [SerializeField] private bool windowBack;
     [SerializeField] private bool windowLeft;
     [SerializeField] private bool windowRight;
+ 
+    [SerializeField] private float StairOpenX;
+    [SerializeField] private float StairOpenY;
+    [SerializeField] private int FloorNr;
 
+    [SerializeField] private GameObject[] RoomObject;
+    [SerializeField] private Vector3[] ObjectLocations;
+    [SerializeField] private Quaternion[] ObjectRotation;
+    
     [SerializeField] private GameObject Wall;
     [SerializeField] private GameObject Window;
     [SerializeField] private GameObject Door;
     [SerializeField] private GameObject Floor;
 
-    [SerializeField] private float FloorSize;
-    [SerializeField] private float WallHeight;
-    [SerializeField] private float StairOpenX;
-    [SerializeField] private float StairOpenY;
-    [SerializeField] private int FloorNr;
-
-    [SerializeField] private int objects;
-    [SerializeField] private GameObject[] RoomObject;
-    [SerializeField] private Vector3[] ObjectLocations;
-    [SerializeField] private Quaternion[] ObjectRotation;
-
     private GameObject newFloor;
+    
     private Vector3 NewPosition;
-
+    
+    private float WallHeight = 4;
+    private float FloorSize = 4;
+    
+    private int index = 0;
+    
     protected void CreateRoom()
     {
         ///Create floor
@@ -151,7 +154,6 @@ public class LevelConstructor : MonoBehaviour {
         }
 
         ///Create Objects in Room
-        int index = 0;
         foreach(GameObject obj in RoomObject)
         {
             Instantiate(obj, ObjectLocations[index], ObjectRotation[index]);
