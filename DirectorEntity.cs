@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,23 +6,41 @@ public class DirectorEntity : MonoBehaviour {
 
 
     [SerializeField] private Vector3 Epsilon;
-    private struct ArieInteres
+    [SerializeField] private float Omega;
+
+        private float North;
+        private float South;
+        private float West;
+        private float East;
+        private float Up;
+        private float Down;
+    
+    private void Awake()
     {
-        float North;
-        float South;
-        float West;
-        float East;
+        Omega = 25.0f;
+        Epsilon.x = Omega;
+        Epsilon.z = Omega;
+        Epsilon.y = Omega;
+    }
+    private void getPlayerPosition()
+    {
+        North = transform.position.x + Epsilon.x;
+        Debug.Log("nord " + North);
+        South = transform.position.x - Epsilon.x;
+        Debug.Log("sud " + South);
+        East = transform.position.z + Epsilon.z;
+        Debug.Log("est " + East);
+        West = transform.position.z - Epsilon.z;
+        Debug.Log("vest " + West);
+        Up = transform.position.y + Epsilon.y;
+        Debug.Log("up " + Up);
+        Down = transform.position.y - Epsilon.y;
+        Debug.Log("Down " + Down);
     }
 
-
-    private Vector3 getPlayerPosition()
-    {
-        return transform.localPosition;
-    }
-
-    // Update is called once per frame
+    
     void Update () {
 
-        Debug.Log(getPlayerPosition());
+        getPlayerPosition();
     }
 }
