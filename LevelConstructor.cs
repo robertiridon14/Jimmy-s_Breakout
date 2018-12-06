@@ -7,8 +7,8 @@ public class LevelConstructor : MonoBehaviour
     [SerializeField] private int xSize;
     [SerializeField] private int ySize;
 
-    [SerializeField] private int[] RenderedTilesX;
-    [SerializeField] private int[] RenderedTilesY;
+ //   [SerializeField] private int[] RenderedTilesX;
+ //   [SerializeField] private int[] RenderedTilesY;
 
     [SerializeField] private int doorFront;
     [SerializeField] private int doorBack;
@@ -33,7 +33,8 @@ public class LevelConstructor : MonoBehaviour
     [SerializeField] private GameObject Door;
     [SerializeField] private GameObject Floor;
 
-    private GameObject parent;
+    private GameObject WallParent;
+    private GameObject FloorParent;
 
     private List<GameObject> room;
 
@@ -49,6 +50,8 @@ public class LevelConstructor : MonoBehaviour
 
     protected void CreateFloor()
     {
+        FloorParent = new GameObject();
+        FloorParent.name = "Floor";
         ///Create floor
         for (int i = 0; i < ySize; i++)
         {
@@ -56,17 +59,16 @@ public class LevelConstructor : MonoBehaviour
             {
                 if (!(StairOpenX - 1 == i && StairOpenY - 1 == j))
                 {
-                    if (i == RenderedTilesX[i] || j == RenderedTilesY[j])
-                    {
                         newFloor = Instantiate(Floor, NewPosition, Quaternion.Euler(0.0f, 0.0f, 0.0f));
                         NewPosition.x = j * FloorSize;
                         NewPosition.z = i * FloorSize;
                         NewPosition.y = WallHeight * FloorNr;
-                    }
+                        newFloor.transform.parent = FloorParent.transform;
                 }
             }
         }
         newFloor = Instantiate(Floor, NewPosition, Quaternion.Euler(0.0f, 0.0f, 0.0f));
+        newFloor.transform.parent = FloorParent.transform;
 
         ///Create roof
         for (int i = 0; i < ySize; i++)
@@ -75,29 +77,24 @@ public class LevelConstructor : MonoBehaviour
             {
                 if (!(StairOpenX - 1 == i && StairOpenY - 1 == j))
                 {
-                    if (i == RenderedTilesX[i] || j == RenderedTilesY[j])
-                    {
+
                         newFloor = Instantiate(Floor, NewPosition, Quaternion.Euler(180.0f, 0.0f, 0.0f));
                         NewPosition.x = j * FloorSize;
                         NewPosition.z = i * FloorSize + FloorSize;
                         NewPosition.y = WallHeight * FloorNr + WallHeight;
-                    }
+                        newFloor.transform.parent = FloorParent.transform;
                 }
             }
         }
         newFloor = Instantiate(Floor, NewPosition, Quaternion.Euler(180.0f, 0.0f, 0.0f));
+        newFloor.transform.parent = FloorParent.transform;
 
     }
-    protected void CreateRoom()
+    protected void CreateWalls()
     {
-
         this.room = new List<GameObject>();
-        this.parent = new GameObject();
-        parent.name = "Room";
-
-      
-
-
+        this.WallParent = new GameObject();
+        WallParent.name = "Walls";
         ///Create front wall
         for (int i = 0; i < xSize; i++)
         {
@@ -105,19 +102,19 @@ public class LevelConstructor : MonoBehaviour
             {
                 Door = Instantiate(Door, new Vector3(i * WallHeight, 0.0f, WallHeight * FloorNr),
                     Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Door.transform.parent = parent.transform;
+                Door.transform.parent = WallParent.transform;
             }
             else if (windowFront)
             {
                 Window = Instantiate(Window, new Vector3(i * WallHeight, 0.0f, WallHeight * FloorNr),
                     Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Window.transform.parent = parent.transform;
+                Window.transform.parent = WallParent.transform;
             }
             else
             {
                 Wall = Instantiate(Wall, new Vector3(i * WallHeight, 0.0f, WallHeight * FloorNr),
                     Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Wall.transform.parent = parent.transform;
+                Wall.transform.parent = WallParent.transform;
             }
         }
         ///Create Back wall
@@ -127,19 +124,19 @@ public class LevelConstructor : MonoBehaviour
             {
                 Door = Instantiate(Door, new Vector3(WallHeight * j, FloorNr * WallHeight, ySize * WallHeight),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Door.transform.parent = parent.transform;
+                Door.transform.parent = WallParent.transform;
             }
             else if (windowBack)
             {
                 Window = Instantiate(Window, new Vector3(WallHeight * j, FloorNr * WallHeight, ySize * WallHeight),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Window.transform.parent = parent.transform;
+                Window.transform.parent = WallParent.transform;
             }
             else
             {
                 Wall = Instantiate(Wall, new Vector3(WallHeight * j, FloorNr * WallHeight, ySize * WallHeight),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                Wall.transform.parent = parent.transform;
+                Wall.transform.parent = WallParent.transform;
             }
         }
         ///Create right wall
@@ -149,19 +146,19 @@ public class LevelConstructor : MonoBehaviour
             {
                 Door = Instantiate(Door, new Vector3(xSize * WallHeight - FloorSize, FloorNr * WallHeight, k * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Door.transform.parent = parent.transform;
+                Door.transform.parent = WallParent.transform;
             }
             else if (windowRight)
             {
                 Window = Instantiate(Window, new Vector3(xSize * WallHeight - FloorSize, FloorNr * WallHeight, k * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Window.transform.parent = parent.transform;
+                Window.transform.parent = WallParent.transform;
             }
             else
             {
                 Wall = Instantiate(Wall, new Vector3(xSize * WallHeight - FloorSize, FloorNr * WallHeight, k * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Wall.transform.parent = parent.transform;
+                Wall.transform.parent = WallParent.transform;
             }
         }
 
@@ -172,19 +169,19 @@ public class LevelConstructor : MonoBehaviour
             {
                 Door = Instantiate(Door, new Vector3(-FloorSize, FloorNr * WallHeight, p * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Door.transform.parent = parent.transform;
+                Door.transform.parent = WallParent.transform;
             }
             else if (windowRight)
             {
                 Window = Instantiate(Window, new Vector3(-FloorSize, FloorNr * WallHeight, p * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Window.transform.parent = parent.transform;
+                Window.transform.parent = WallParent.transform;
             }
             else
             {
                 Wall = Instantiate(Wall, new Vector3(-FloorSize, FloorNr * WallHeight, p * WallHeight),
                 Quaternion.Euler(0.0f, 90.0f, 0.0f));
-                Wall.transform.parent = parent.transform;
+                Wall.transform.parent = WallParent.transform;
             }
         }
 
@@ -193,12 +190,12 @@ public class LevelConstructor : MonoBehaviour
         {
             Instantiate(obj, ObjectLocations[index], ObjectRotation[index]);
             index++;
-            obj.transform.parent = parent.transform.parent;
+            obj.transform.parent = WallParent.transform.parent;
         }
     }
     public void Awake()
     {
-        //CreateRoom();
         CreateFloor();
+        CreateWalls();
     }
 }
