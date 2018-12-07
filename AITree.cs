@@ -1,11 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DirectorAI;
 
 public class AITree : MonoBehaviour {
 
     public Transform moveSpots;
     public float speed;
+    private DirectorEntity directorEntity;
 
     private float WaitTime;
     public float startWaitTime;
@@ -15,10 +17,29 @@ public class AITree : MonoBehaviour {
     public float minY;
     public float maxY;
 
+    private enum AItype {santinel, collector};
+    private enum states {patrol,attack, idle};
+
 	void Awake()
     {
         startWaitTime = startWaitTime;
         moveSpots.position = new Vector3(Random.RandomRange(minX, maxX), Random.RandomRange(0, 5), Random.RandomRange(minY, maxY));
+    }
+
+    private void checkInterestArea()
+    {
+        if(transform.position.x < directorEntity.North && transform.position.x > directorEntity.South)
+        {
+
+        }
+        if(transform.position.z < directorEntity.East && transform.position.z > directorEntity.West)
+        {
+
+        }
+        if(transform.position.y < directorEntity.Up && transform.position.y > directorEntity.Down)
+        {
+            
+        }
     }
 	
 
