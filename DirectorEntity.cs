@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DirectorEntity : MonoBehaviour {
 
+   
 
     [SerializeField] private Vector3 Epsilon;
     [SerializeField] private float Omega;
